@@ -4,7 +4,7 @@ import hashlib
 import json
 import falcon
 import distance
-
+import random
 class LevensteinResource(object):
     """Resource to process all the requests.
     """
@@ -39,7 +39,29 @@ class LevensteinResource(object):
         if not self.res:
             return
 
-        self.winners = list(filter(lambda x: x[0] == min(self.res)[0], self.res))
+        how_many_winners_needed = self.max_winners - len(self.winners)
+        if how_many_winners_needed < 0:
+            return
+
+        likely_winners = list(filter(lambda x: x[0] == min(self.res)[0], self.res))
+
+        if len(likely_winners) > how_many_winners_needed:
+            tmp = random.sample(likely_winners, how_many_winners_needed)
+            self.remove_from_res(tmp)
+            self.winners += tmp
+        elif len(likely_winners) == how_many_winners_needed:
+            self.remove_from_res(likely_winners)
+            self.winners += likely_winners
+        else:
+            self.remove_from_res(likely_winners)
+            self.winners += likely_winners
+            self.find_winners()
+
+    def remove_from_res(self, lst):
+        """Removes element of `lst` from `res` variable.
+        """
+        for element in lst:
+            self.res.remove(element)
 
     def on_post(self, req, resp):
         """Handles GET requests
