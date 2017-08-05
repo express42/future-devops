@@ -19,19 +19,22 @@ class LevensteinResource(object):
         """Resets variables to default
         """
         self.winners = []
-        self.tools = []
-        self.emails = []
+        self.tools = set()
+        self.emails = set()
         self.res = []
 
     def compare(self):
         """Compares every email to list of tools.
         """
-        for tool in self.tools:
-            tool_hash = hashlib.sha512(tool.encode('utf-8')).hexdigest()
             for email in self.emails:
                 email_hash = hashlib.sha512(email.encode('utf-8')).hexdigest()
+            possible_winner = (len(email_hash), email, 'none')
+            for tool in self.tools:
+                tool_hash = hashlib.sha512(tool.encode('utf-8')).hexdigest()
                 count = distance.levenshtein(tool_hash, email_hash)
-                self.res.append((count, tool, email))
+                if count < possible_winner[0]:
+                    possible_winner = (count, email, tool)
+            self.res.append(possible_winner)
 
     def find_winners(self):
         """Gets `max_winners` number of winners.
@@ -70,8 +73,8 @@ class LevensteinResource(object):
         if req.content_length:
             data = json.load(req.stream)
             self.reset()
-            self.tools = data['tools']
-            self.emails = data['emails']
+            self.tools = set(filter(lambda x: x.strip() != '', data['tools']))
+            self.emails = set(filter(lambda x: x.strip() != '', data['emails']))
             self.compare()
             self.find_winners()
         resp.body = str(self.winners)
