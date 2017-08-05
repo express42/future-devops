@@ -2,15 +2,26 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <link href="style.css" rel="stylesheet" type="text/css">
   </head>
   <body>
-    <h1>Future DevOps Recognizer</h1>
-    <form id="future-devops" action="/levenstein" method="POST">
-      <textarea id="tools" name="tools">kubernetes
+    <div id="container">
+      <h1>Future DevOps Recognizer</h1>
+      <div id="col1">
+        <h2>Tools</h2>
+        <textarea id="tools" name="tools" form="future-devops">kubernetes
 docker</textarea>
-      <textarea id="emails" name="emails">vkhabarov@express42.com
+      </div>
+      <div id="col2">
+        <h2>Emails</h2>
+        <textarea id="emails" name="emails" form="future-devops">vkhabarov@express42.com
 alex@express42.com</textarea>
-      <input type="submit" align="right">
-    </form>
+      </div>
+      <div id="result"></div>
+      <div id="loading"></div>
+      <form id="future-devops" action="/levenstein" method="POST">
+        <input type="submit" align="right">
+      </form>
+    </div>
   </body>
 </html>

@@ -1,0 +1,27 @@
+html,
+body {
+    margin:0;
+    padding:0;
+	font-family:'Source Sans Pro',sans-serif;
+}
+div {margin:1em 0;}
+#container {
+    width:600px;
+    margin:0 auto;
+}
+#col1 {
+    width:50%;
+    float:left;
+}
+#col2 {
+    width:50%;
+    float:left;
+}
+#loading { text-align: center;}
+textarea {
+	font-family:'Source Sans Pro',sans-serif;
+    font-size:12pt;
+    height:50em;
+    width:95%;
+}
+input[type="submit"] { float:right; }
