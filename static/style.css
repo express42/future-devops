@@ -24,4 +24,10 @@ textarea {
     height:50em;
     width:95%;
 }
+textarea.hidden {
+	font-family:'Source Sans Pro',sans-serif;
+    font-size:12pt;
+    height:5em;
+    width:95%;
+}
 input[type="submit"] { float:right; }
