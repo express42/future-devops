@@ -6,7 +6,8 @@ RUN \
 && \
   pip3 install \
     falcon \
-    gunicorn
+    gunicorn \
+    distance
 
 ADD ./future-devops/ ./future-devops/
 
