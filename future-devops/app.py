@@ -22,10 +22,13 @@ class LevensteinResource(object):
         self.tools = set()
         self.emails = set()
         self.res = []
+        self.response = []
 
     def compare(self):
         """Compares every email to list of tools.
         """
+        emails_len = len(self.emails)
+        emails_counter = 0
             for email in self.emails:
                 email_hash = hashlib.sha512(email.encode('utf-8')).hexdigest()
             possible_winner = (len(email_hash), email, 'none')
@@ -34,6 +37,13 @@ class LevensteinResource(object):
                 count = distance.levenshtein(tool_hash, email_hash)
                 if count < possible_winner[0]:
                     possible_winner = (count, email, tool)
+            emails_counter += 1
+            self.response = [{
+                'emails_checked': '{:.2%}'.format(emails_counter/emails_len*1.0),
+                'winners': [],
+                'likely_winners': [],
+                'needed': self.max_winners
+                }]
             self.res.append(possible_winner)
 
     def find_winners(self):
@@ -47,14 +57,32 @@ class LevensteinResource(object):
             return
 
         likely_winners = list(filter(lambda x: x[0] == min(self.res)[0], self.res))
+        self.response.append({
+            'emails_checked': '100.00%',
+            'winners': [] + self.winners,
+            'likely_winners': [] + likely_winners,
+            'needed': how_many_winners_needed
+            })
 
         if len(likely_winners) > how_many_winners_needed:
             tmp = random.sample(likely_winners, how_many_winners_needed)
             self.remove_from_res(tmp)
             self.winners += tmp
+            self.response.append({
+                'emails_checked': '100.00%',
+                'winners': [] + self.winners,
+                'likely_winners': [],
+                'needed': 0
+                })
         elif len(likely_winners) == how_many_winners_needed:
             self.remove_from_res(likely_winners)
             self.winners += likely_winners
+            self.response.append({
+                'emails_checked': '100.00%',
+                'winners': [] + self.winners,
+                'likely_winners': [],
+                'needed': 0
+                })
         else:
             self.remove_from_res(likely_winners)
             self.winners += likely_winners
@@ -77,7 +105,7 @@ class LevensteinResource(object):
             self.emails = set(filter(lambda x: x.strip() != '', data['emails']))
             self.compare()
             self.find_winners()
-        resp.body = str(self.winners)
+        resp.body = str(json.dumps(self.response))
 
 api = application = falcon.API()
 
