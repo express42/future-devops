@@ -33,6 +33,14 @@ class LevensteinResource(object):
                 count = distance.levenshtein(tool_hash, email_hash)
                 self.res.append((count, tool, email))
 
+    def find_winners(self):
+        """Gets `max_winners` number of winners.
+        """
+        if not self.res:
+            return
+
+        self.winners = list(filter(lambda x: x[0] == min(self.res)[0], self.res))
+
     def on_post(self, req, resp):
         """Handles GET requests
         """
@@ -43,7 +51,8 @@ class LevensteinResource(object):
             self.tools = data['tools']
             self.emails = data['emails']
             self.compare()
-        resp.body = str(self.res)
+            self.find_winners()
+        resp.body = str(self.winners)
 
 api = application = falcon.API()
 
