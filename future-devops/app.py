@@ -12,6 +12,13 @@ class LevensteinResource(object):
     def __init__(self):
         """Defines default variables.
         """
+        self.max_winners = 2
+        self.reset()
+
+    def reset(self):
+        """Resets variables to default
+        """
+        self.winners = []
         self.tools = []
         self.emails = []
         self.res = []
@@ -32,6 +39,7 @@ class LevensteinResource(object):
         resp.status = falcon.HTTP_200
         if req.content_length:
             data = json.load(req.stream)
+            self.reset()
             self.tools = data['tools']
             self.emails = data['emails']
             self.compare()
