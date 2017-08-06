@@ -1,5 +1,3 @@
-new Image().src = "loading.gif";
-
 var form = document.getElementById('future-devops');
 form.addEventListener('submit', function(event) {
     document.getElementById("result").innerHTML = '';
@@ -16,7 +14,7 @@ form.addEventListener('submit', function(event) {
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange=function() {
         if (xhr.readyState==4) {
-            document.getElementById("loading").innerHTML = '';
+            document.getElementById("loading").style.display = "none";
             if (xhr.status != 200) {
                 var res = 'Error ' + xhr.status + ': ' + xhr.statusText;
             } else {
@@ -26,14 +24,22 @@ form.addEventListener('submit', function(event) {
         }
     }
 
-    document.getElementById("tools").className = 'hidden';
-    document.getElementById("emails").className = 'hidden';
-    document.getElementById("loading").innerHTML = '<img src="loading.gif" />';
+    document.getElementById("loading").style.display = "block";
+    hide_input();
 
     xhr.open('POST', '/levenstein', true);
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
     xhr.send(json);
 });
+
+function hide_input() {
+    document.getElementById("tools").className = 'hidden';
+    document.getElementById("emails").className = 'hidden';
+}
+function reveal_input() {
+    document.getElementById("tools").className = '';
+    document.getElementById("emails").className = '';
+}
 
 function parse_status(status) {
     var res = '';
@@ -54,6 +60,7 @@ function parse_status(status) {
             res += ' Looking among ' + print_names(step["likely_winners"]) + '.<br>';
         }
         iter++;
+        res += '<br>';
     }
     return res;
 }
@@ -61,7 +68,8 @@ function parse_status(status) {
 function print_winners(lst) {
     var res = '';
     for (var el of lst) {
-        res += el[1] + ' to ' + el[2] + ' just in ' + el[0] + ' steps.<br>';
+        res += '<span class="email">'+ el[1] + '</span>'
+        + ' to ' + el[2] + ' just in ' + el[0] + ' steps.<br>';
     }
     return res;
 }
@@ -69,7 +77,7 @@ function print_winners(lst) {
 function print_names(lst) {
     var res = [];
     for (var el of lst) {
-        res.push(el[1]);
+        res.push('<span class="email">'+ el[1] + '</span>');
     }
     return res.join(', ');
 }

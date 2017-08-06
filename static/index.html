@@ -1,4 +1,3 @@
-<!DOCTYPE HTML>
 <html>
   <head>
     <meta charset="utf-8">
@@ -9,19 +8,23 @@
       <h1>Future DevOps Recognizer</h1>
       <div id="col1">
         <h2>Tools</h2>
-        <textarea id="tools" name="tools" form="future-devops">kubernetes
+        <textarea id="tools" name="tools" form="future-devops" onfocus="reveal_input();">kubernetes
 docker</textarea>
       </div>
       <div id="col2">
         <h2>Emails</h2>
-        <textarea id="emails" name="emails" form="future-devops">vkhabarov@express42.com
+        <textarea id="emails" name="emails" form="future-devops" onfocus="reveal_input();">vkhabarov@express42.com
 alex@express42.com</textarea>
       </div>
-      <div id="result"></div>
-      <div id="loading"></div>
       <form id="future-devops">
-        <input type="submit" align="right">
+        <button type="submit" align="right">Find some winners</button>
       </form>
+      <div id="result"></div>
+      <div id="loading" class="spinner">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+      </div>
       <script type="text/javascript" src="submitForm.js"></script>
     </div>
   </body>
