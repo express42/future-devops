@@ -2,6 +2,7 @@ new Image().src = "loading.gif";
 
 var form = document.getElementById('future-devops');
 form.addEventListener('submit', function(event) {
+    document.getElementById("result").innerHTML = '';
     event.preventDefault();
     var formData = new FormData(form),
         result = {};
