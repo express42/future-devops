@@ -18,4 +18,4 @@ ADD ./future-devops/ ./future-devops/
 
 EXPOSE 80
 
-CMD gunicorn -b 127.0.0.1:5000 future-devops.app & nginx -g 'daemon off;'
+CMD gunicorn --reload -b 127.0.0.1:5000 future-devops.app & nginx -g 'daemon off;'
