@@ -12,7 +12,7 @@ RUN \
 && \
   mkdir -p /run/nginx
 
-ADD ./default.conf /etc/nginx/conf.d/default.conf
+ADD ./nginx.conf /etc/nginx/nginx.conf
 ADD ./static/ ./static/
 ADD ./future-devops/ ./future-devops/
 
