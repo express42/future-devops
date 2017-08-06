@@ -2,9 +2,10 @@
 """
 import hashlib
 import json
+import random
 import falcon
 import distance
-import random
+
 class LevensteinResource(object):
     """Resource to process all the requests.
     """
@@ -29,8 +30,8 @@ class LevensteinResource(object):
         """
         emails_len = len(self.emails)
         emails_counter = 0
-            for email in self.emails:
-                email_hash = hashlib.sha512(email.encode('utf-8')).hexdigest()
+        for email in self.emails:
+            email_hash = hashlib.sha512(email.encode('utf-8')).hexdigest()
             possible_winner = (len(email_hash), email, 'none')
             for tool in self.tools:
                 tool_hash = hashlib.sha512(tool.encode('utf-8')).hexdigest()
