@@ -29,7 +29,7 @@ form.addEventListener('submit', function(event) {
     document.getElementById("emails").className = 'hidden';
     document.getElementById("loading").innerHTML = '<img src="loading.gif" />';
 
-    xhr.open('POST', 'http://127.0.0.1:8000/levenstein', true);
+    xhr.open('POST', '/levenstein', true);
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
     xhr.send(json);
 });
