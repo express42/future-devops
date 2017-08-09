@@ -28,28 +28,6 @@ class LevensteinResource(object):
         self.response = []
         self.task_id = 0
 
-    def compare(self):
-        """Compares every email to list of tools.
-        """
-        emails_len = len(self.emails)
-        emails_counter = 0
-        for email in self.emails:
-            email_hash = hashlib.sha512(email.encode('utf-8')).hexdigest()
-            possible_winner = (len(email_hash), email, 'none')
-            for tool in self.tools:
-                tool_hash = hashlib.sha512(tool.encode('utf-8')).hexdigest()
-                count = distance.levenshtein(tool_hash, email_hash)
-                if count < possible_winner[0]:
-                    possible_winner = (count, email, tool)
-            emails_counter += 1
-            self.response = [{
-                'emails_checked': '{:.2%}'.format(emails_counter/emails_len*1.0),
-                'winners': [],
-                'likely_winners': [],
-                'needed': self.max_winners
-                }]
-            self.res.append(possible_winner)
-
     def find_winners(self):
         """Gets `max_winners` number of winners.
         """
@@ -99,7 +77,7 @@ class LevensteinResource(object):
             self.res.remove(element)
 
     def on_post(self, req, resp):
-        """Handles GET requests
+        """Handles POST requests
         """
         resp.status = falcon.HTTP_200
         if req.content_length:

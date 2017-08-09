@@ -44,7 +44,8 @@ form.addEventListener('submit', function(event) {
     function() {
         // Error, failure callback
     },
-    360000
+    36000000,
+    200
 )
 });
 

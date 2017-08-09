@@ -1,6 +1,8 @@
+"""Async worker for compare emails to tools using Levenstein distance
+"""
+import hashlib
 import celery
 import distance
-import hashlib
 
 app = celery.Celery('tasks', broker='redis://localhost:6379/0', backend='redis://localhost:6379/0')
 
