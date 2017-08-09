@@ -4,18 +4,23 @@ RUN \
   apk add --no-cache \
     python3 \
     nginx \
+    redis \
 && \
   pip3 install \
     falcon \
     gunicorn \
     distance \
+    celery \
+    redis \
 && \
   mkdir -p /run/nginx
 
 ADD ./nginx.conf /etc/nginx/nginx.conf
-ADD ./static/ ./static/
-ADD ./future-devops/ ./future-devops/
+ADD ./static/ /static/
+ADD ./future-devops/ /future-devops/
 
 EXPOSE 80
 
-CMD gunicorn --reload -b 127.0.0.1:5000 future-devops.app & nginx -g 'daemon off;'
+WORKDIR /future-devops/
+
+CMD redis-server & celery -A tasks worker --loglevel=info & gunicorn --reload -b 127.0.0.1:5000 app & nginx -g 'daemon off;'

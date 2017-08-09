@@ -12,24 +12,40 @@ form.addEventListener('submit', function(event) {
     var json = JSON.stringify(result);
 
     var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange=function() {
-        if (xhr.readyState==4) {
-            document.getElementById("loading").style.display = "none";
-            if (xhr.status != 200) {
-                var res = 'Error ' + xhr.status + ': ' + xhr.statusText;
-            } else {
-                var res = parse_status(JSON.parse(xhr.responseText));
-            }
-            document.getElementById("result").innerHTML = res;
-        }
-    }
-
     document.getElementById("loading").style.display = "block";
     hide_input();
 
     xhr.open('POST', '/levenstein', true);
     xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
     xhr.send(json);
+    
+    poll(
+    function() {
+        var status = new XMLHttpRequest();
+        var res = '';
+        status.onreadystatechange=function() {
+            if (status.readyState==4) {
+                if (status.status != 200) {
+                    res = 'Error ' + status.status + ': ' + status.statusText;
+                } else {
+                    res = parse_status(JSON.parse(status.responseText));
+                }
+                document.getElementById("result").innerHTML = res;
+            }
+        }
+        status.open('GET', '/levenstein', false);
+        status.send();
+
+        return JSON.parse(status.responseText).length > 1;
+    },
+    function() {
+        document.getElementById("loading").style.display = "none";
+    },
+    function() {
+        // Error, failure callback
+    },
+    360000
+)
 });
 
 function hide_input() {
@@ -80,4 +96,24 @@ function print_names(lst) {
         res.push('<span class="email">'+ el[1] + '</span>');
     }
     return res.join(', ');
+}
+
+function poll(fn, callback, errback, timeout, interval) {
+    var endTime = Number(new Date()) + (timeout || 2000);
+    interval = interval || 100;
+
+    (function p() {
+            // If the condition is met, we're done! 
+            if(fn()) {
+                callback();
+            }
+            // If the condition isn't met but the timeout hasn't elapsed, go again
+            else if (Number(new Date()) < endTime) {
+                setTimeout(p, interval);
+            }
+            // Didn't match and too much time, reject!
+            else {
+                errback(new Error('timed out for ' + fn + ': ' + arguments));
+            }
+    })();
 }

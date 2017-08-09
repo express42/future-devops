@@ -5,6 +5,8 @@ import json
 import random
 import falcon
 import distance
+from celery.result import AsyncResult
+from tasks import compare
 
 class LevensteinResource(object):
     """Resource to process all the requests.
@@ -24,6 +26,7 @@ class LevensteinResource(object):
         self.emails = set()
         self.res = []
         self.response = []
+        self.task_id = 0
 
     def compare(self):
         """Compares every email to list of tools.
@@ -104,7 +107,31 @@ class LevensteinResource(object):
             self.reset()
             self.tools = set(filter(lambda x: x.strip() != '', data['tools']))
             self.emails = set(filter(lambda x: x.strip() != '', data['emails']))
-            self.compare()
+            #self.compare()
+            #self.find_winners()
+            self.task_id = compare.delay(list(self.tools), list(self.emails)).id
+        resp.body = str(self.task_id)
+
+    def on_get(self, req, resp):
+        """Handles GET requests
+        """
+        resp.status = falcon.HTTP_200
+        task_result = AsyncResult(self.task_id)
+        if (str(task_result.status) == "PROGRESS"):
+            self.response = [{
+                'emails_checked': '{:.2%}'.format(task_result.result["progress"]),
+                'winners': [],
+                'likely_winners': [],
+                'needed': self.max_winners
+                }]
+        else:
+            self.response = [{
+                'emails_checked': '100%',
+                'winners': [],
+                'likely_winners': [],
+                'needed': self.max_winners
+                }]
+            self.res = task_result.result
             self.find_winners()
         resp.body = str(json.dumps(self.response))
 
