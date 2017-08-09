@@ -117,7 +117,14 @@ class LevensteinResource(object):
         """
         resp.status = falcon.HTTP_200
         task_result = AsyncResult(self.task_id)
-        if (str(task_result.status) == "PROGRESS"):
+        if (str(task_result.status) == "PENDING"):
+            self.response = [{
+                'emails_checked': '0.00%',
+                'winners': [],
+                'likely_winners': [],
+                'needed': self.max_winners
+                }]
+        elif (str(task_result.status) == "PROGRESS"):
             self.response = [{
                 'emails_checked': '{:.2%}'.format(task_result.result["progress"]),
                 'winners': [],

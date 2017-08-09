@@ -30,13 +30,13 @@ form.addEventListener('submit', function(event) {
                 } else {
                     res = parse_status(JSON.parse(status.responseText));
                 }
-                document.getElementById("result").innerHTML = res;
+                document.getElementById("result").innerHTML = res[1];
             }
         }
         status.open('GET', '/levenstein', false);
         status.send();
 
-        return JSON.parse(status.responseText).length > 1;
+        return res[0];
     },
     function() {
         document.getElementById("loading").style.display = "none";
@@ -60,12 +60,14 @@ function reveal_input() {
 function parse_status(status) {
     var res = '';
     var iter = 0;
+    var found = false;
     for (var step of status) {
         if (step["winners"].length == 0
             && step["likely_winners"].length == 0 ) {
             res += 'Checked ' + step["emails_checked"] + ' emails.'
             + ' Looking for ' + step["needed"] + ' winners<br>';
         } else if (step["needed"] == 0 ) {
+            found = true;
             res += 'Found winners:<br>' + print_winners(step["winners"]);
         } else {
             res += 'Iteration ' + iter + ':'
@@ -78,7 +80,7 @@ function parse_status(status) {
         iter++;
         res += '<br>';
     }
-    return res;
+    return [found, res];
 }
 
 function print_winners(lst) {
