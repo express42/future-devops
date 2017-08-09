@@ -2,27 +2,35 @@
 Future DevOps is a little `falcon` service with one-page JS-client served by `nginx`
 
 Future DevOps takes two lists as input, hashes their elements and intercompares them using Levenstein distance.
-## Using
-1. Run `docker` container with command
-```
-docker run -p 8080:80 express42/future-devops
-```
-2. Visit http://127.0.0.1:8080/
-3. Fill `Tools` and `Emails` columns one entry by line
-4. Press `Find winners` button
-5. Wait for result
 
-## Developing
-1. Clone this repo with command
+## Описание (Description on russian)
+Приложение Future DevOps работает по следующему алгоритму
+1. На вход подаются два списка: список инструментов DevOps и список адресов электронной почты.
+2. От каждого элемента обоих списков считается контрольная сумма
+3. Высчитывается расстояние Левенштейна между каждой парой контрольных сумм из разных списков
+4. Выбираются адреса электронной почты с наименьшим расстоянием к инструментам DevOps
+5. Если адресов меньше или равно необходимому (на первом шаге это число равно двум), то все адреса переходят в статус "победителей"
+6. Иначе (если адресов больше) то из потенциальных победителей случайным образом выбирается недостающее количество адресов
+7. Шаги 4-6 повторяются, пока не будет набрано необходимое количество адресов
+
+## Using
+1. Clone this repo and change dir inside repo folder with commands
 ```
 git clone git@github.com:express42/future-devops.git
-```
-2. Run `docker-compose` inside repo folder with command
-```
 cd ./future-devops/
-docker-compose up --build
 ```
-3. All your changes inside `./future-devops/future-devops/` and `./future-devops/static/` folders will be immediately applied to the service
+2. Build `docker` image with command
+```
+docker build -t express42/future-devops .
+```
+2. Run `docker-compose` with command
+```
+docker-compose up
+```
+3. Visit http://127.0.0.1:8080/
+4. Fill `Tools` and `Emails` columns one entry by line
+5. Press `Find winners` button
+6. Wait for result
 
 ## Contents
 * `future-devops` - contains `falcon` application
