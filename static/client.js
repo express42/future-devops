@@ -1,3 +1,14 @@
+String.prototype.lines = function() { return this.split(/\r*\n/); }
+String.prototype.lineCount = function() { return this.lines().length; }
+
+function count_lines(col) {
+    count = document.getElementById(col).value.lineCount();
+    document.getElementById(col + "-header").innerHTML = col + ': ' + count;
+}
+
+count_lines("Emails");
+count_lines("Tools");
+
 var form = document.getElementById('future-devops');
 form.addEventListener('submit', function(event) {
     document.getElementById("result").innerHTML = '';
@@ -50,12 +61,12 @@ form.addEventListener('submit', function(event) {
 });
 
 function hide_input() {
-    document.getElementById("tools").className = 'hidden';
-    document.getElementById("emails").className = 'hidden';
+    document.getElementById("Tools").className = 'hidden';
+    document.getElementById("Emails").className = 'hidden';
 }
 function reveal_input() {
-    document.getElementById("tools").className = '';
-    document.getElementById("emails").className = '';
+    document.getElementById("Tools").className = '';
+    document.getElementById("Emails").className = '';
 }
 
 function parse_status(status) {
