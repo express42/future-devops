@@ -6,7 +6,7 @@ services:
     environment:
     - REDIS_HOST=redis
     volumes:
-    - ./future-devops:/future-devops
+    - ./future-devops:/usr/src/app
     depends_on:
     - redis
   redis:
