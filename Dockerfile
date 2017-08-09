@@ -4,7 +4,6 @@ RUN \
   apk add --no-cache \
     python3 \
     nginx \
-    redis \
 && \
   pip3 install \
     falcon \
@@ -23,4 +22,4 @@ EXPOSE 80
 
 WORKDIR /future-devops/
 
-CMD redis-server & celery -A tasks worker --loglevel=info & gunicorn --reload -b 127.0.0.1:5000 app & nginx -g 'daemon off;'
+CMD celery -A tasks worker --loglevel=info & gunicorn --reload -b 127.0.0.1:5000 app & nginx -g 'daemon off;'

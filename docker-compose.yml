@@ -3,9 +3,15 @@ version: '3'
 services:
   future-devops:
     build: .
+    environment:
+    - REDIS_HOST=redis
     ports:
     - 8080:80
     volumes:
     - ./future-devops:/future-devops
     - ./static:/static
     - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+    - redis
+  redis:
+    image: redis:alpine

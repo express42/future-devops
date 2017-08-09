@@ -3,8 +3,13 @@
 import hashlib
 import celery
 import distance
+import os
 
-app = celery.Celery('tasks', broker='redis://localhost:6379/0', backend='redis://localhost:6379/0')
+app = celery.Celery(
+    'tasks',
+    broker='redis://{}:6379/0'.format(os.environ['REDIS_HOST']),
+    backend='redis://{}:6379/0'.format(os.environ['REDIS_HOST'])
+)
 
 @app.task(bind=True)
 def compare(self, tools, emails):
