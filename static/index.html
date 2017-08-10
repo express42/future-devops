@@ -53,7 +53,7 @@ Azure</textarea>
       </div>
       <div id="col2">
         <h2 id="Emails-header">Emails</h2>
-        <textarea id="Emails" name="emails" form="future-devops" onfocus="reveal_input();" onkeyup="count_lines('Emails');">fwitness@me.com
+        <textarea id="Emails" name="emails" form="future-devops" onfocus="reveal_input();" onkeyup="count_lines('Emails');hide_emails();">fwitness@me.com
 reziac@yahoo.com
 spadkins@hotmail.com
 gilmoure@yahoo.com
@@ -95,6 +95,7 @@ muzzy@icloud.com
 karasik@yahoo.com
 dwsauder@hotmail.com
 crusader@comcast.net</textarea>
+        <textarea id="Emails-hidden" style="display:none;"></textarea>
       </div>
       <form id="future-devops">
         <button type="submit" align="right">Find winners</button>

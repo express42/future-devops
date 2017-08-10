@@ -6,8 +6,23 @@ function count_lines(col) {
     document.getElementById(col + "-header").innerHTML = col + ': ' + count;
 }
 
+function obfuscate(email) {
+    [name, domain] = email.split('@');
+    name = name[0] + '*'.repeat(name.length - 1)
+    return name + '@' + domain;
+}
+
+function hide_emails() {
+    document.getElementById("Emails-hidden").value = document.getElementById("Emails").value;
+    var tmp = [];
+    for (var line of document.getElementById("Emails").value.lines()) {
+        tmp.push(obfuscate(line));
+    }
+    document.getElementById("Emails").value = tmp.join('\r\n');
+}
 count_lines("Emails");
 count_lines("Tools");
+hide_emails();
 
 var form = document.getElementById('future-devops');
 form.addEventListener('submit', function(event) {
@@ -15,7 +30,7 @@ form.addEventListener('submit', function(event) {
     event.preventDefault();
     var result = {};
 
-    result["emails"] = document.getElementById("Emails").value.lines();
+    result["emails"] = document.getElementById("Emails-hidden").value.lines();
     result["tools"] = document.getElementById("Tools").value.lines();
     var json = JSON.stringify(result);
 
