@@ -13,13 +13,10 @@ var form = document.getElementById('future-devops');
 form.addEventListener('submit', function(event) {
     document.getElementById("result").innerHTML = '';
     event.preventDefault();
-    var formData = new FormData(form),
-        result = {};
+    var result = {};
 
-    for (var entry of formData.entries())
-    {
-        result[entry[0]] = entry[1].split('\r\n');
-    }
+    result["emails"] = document.getElementById("Emails").value.lines();
+    result["tools"] = document.getElementById("Tools").value.lines();
     var json = JSON.stringify(result);
 
     var xhr = new XMLHttpRequest();
