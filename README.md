@@ -32,6 +32,7 @@ docker-compose up
 5. Click on `Emails` column and upload file containing email addresses one per line
 6. Press `Find winners` button
 7. Wait for result
+
 You can use `example.csv`-file for testing purposes
 
 ## Contents

@@ -3,6 +3,7 @@ version: '3'
 services:
   application:
     image: express42/future-devops
+    build: .
     environment:
     - REDIS_HOST=redis
     volumes:
@@ -11,6 +12,7 @@ services:
     - redis
   celery-worker:
     image: express42/future-devops
+    build: .
     command: celery -A tasks worker --loglevel=info
     environment:
     - REDIS_HOST=redis
