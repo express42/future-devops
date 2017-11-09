@@ -61,7 +61,7 @@ textarea {
     font-size: 24pt;
     color: #7ff;
 }
-#Emails:hover #hoverText {
+#Emails-container:hover #hoverText {
     display: block;
 }
 .textArea.hidden #hoverText {

@@ -11,7 +11,7 @@ function obfuscate(email) {
     name = name[0] + '*'.repeat(name.length - 1)
     return name + '@' + domain;
 }
-count_lines("Emails-hidden");
+count_lines("Emails");
 count_lines("Tools");
 
 var form = document.getElementById('future-devops');
@@ -20,7 +20,7 @@ form.addEventListener('submit', function(event) {
     event.preventDefault();
     var result = {};
 
-    result["emails"] = document.getElementById("Emails-hidden").value.lines();
+    result["emails"] = document.getElementById("Emails").value.lines();
     result["tools"] = document.getElementById("Tools").value.lines();
     var json = JSON.stringify(result);
 
@@ -64,11 +64,11 @@ form.addEventListener('submit', function(event) {
 
 function hide_input() {
     document.getElementById("Tools").classList.add('hidden');
-    document.getElementById("Emails").classList.add('hidden');
+    document.getElementById("Emails-container").classList.add('hidden');
 }
 function reveal_input() {
     document.getElementById("Tools").classList.remove('hidden');
-    document.getElementById("Emails").classList.remove('hidden');
+    document.getElementById("Emails-container").classList.remove('hidden');
 }
 
 function parse_status(status) {
@@ -142,13 +142,13 @@ function readSingleFile(evt) {
         var r = new FileReader();
         r.onload = function(e) { 
             var contents = e.target.result.replace(/^(?=\n)$|^\s*|\s*$|\n\n+/gm,"");
-            document.getElementById("Emails-hidden").value = contents;
+            document.getElementById("Emails").value = contents;
             var tmp = [];
-            for (var line of document.getElementById("Emails-hidden").value.lines()) {
+            for (var line of document.getElementById("Emails").value.lines()) {
                 tmp.push(obfuscate(line));
             }
             document.getElementById('Emails-text').innerHTML = tmp.join('<br>');
-            count_lines("Emails-hidden");
+            count_lines("Emails");
         }
         r.readAsText(f);
         reveal_input();
