@@ -28,9 +28,11 @@ docker build -t express42/future-devops .
 docker-compose up
 ```
 3. Visit http://127.0.0.1:8080/
-4. Fill `Tools` and `Emails` columns one entry by line
-5. Press `Find winners` button
-6. Wait for result
+4. Fill `Tools` column one entry by line
+5. Click on `Emails` column and upload file containing email addresses one per line
+6. Press `Find winners` button
+7. Wait for result
+You can use `example.csv`-file for testing purposes
 
 ## Contents
 * `future-devops` - contains `falcon` application
