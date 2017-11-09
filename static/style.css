@@ -50,6 +50,46 @@ textarea {
     resize: none;
   background: transparent;
 }
+#Emails-text {
+    margin: 0;
+    padding: 0;
+}
+#hoverText {
+    display: none;
+    position: absolute;
+    margin: 10em 2.1em;
+    font-size: 24pt;
+    color: #7ff;
+}
+#Emails:hover #hoverText {
+    display: block;
+}
+.textArea.hidden #hoverText {
+    margin: 0.9em 2.1em;
+}
+.textArea {
+    font-size:14pt;
+    height:42em;
+    width:95%;
+    border:1px solid black;
+    box-shadow: 0 0 0px #719ECE;
+    resize: none;
+    background: transparent;
+    overflow-y: scroll;
+}
+.textArea:hover {
+    font-size:14pt;
+    height:42em;
+    width:95%;
+    border:1px solid black;
+    box-shadow: 0 0 0px #719ECE;
+    resize: none;
+    background-color:rgba(0, 0, 0, 0.4);
+    overflow-y: scroll;
+}
+.textArea.hidden {
+    height:5em;
+}
 textarea.hidden {
     height:5em;
 }

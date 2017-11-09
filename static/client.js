@@ -11,18 +11,8 @@ function obfuscate(email) {
     name = name[0] + '*'.repeat(name.length - 1)
     return name + '@' + domain;
 }
-
-function hide_emails() {
-    document.getElementById("Emails-hidden").value = document.getElementById("Emails").value;
-    var tmp = [];
-    for (var line of document.getElementById("Emails").value.lines()) {
-        tmp.push(obfuscate(line));
-    }
-    document.getElementById("Emails").value = tmp.join('\r\n');
-}
-count_lines("Emails");
+count_lines("Emails-hidden");
 count_lines("Tools");
-hide_emails();
 
 var form = document.getElementById('future-devops');
 form.addEventListener('submit', function(event) {
@@ -73,12 +63,12 @@ form.addEventListener('submit', function(event) {
 });
 
 function hide_input() {
-    document.getElementById("Tools").className = 'hidden';
-    document.getElementById("Emails").className = 'hidden';
+    document.getElementById("Tools").classList.add('hidden');
+    document.getElementById("Emails").classList.add('hidden');
 }
 function reveal_input() {
-    document.getElementById("Tools").className = '';
-    document.getElementById("Emails").className = '';
+    document.getElementById("Tools").classList.remove('hidden');
+    document.getElementById("Emails").classList.remove('hidden');
 }
 
 function parse_status(status) {
@@ -143,3 +133,27 @@ function poll(fn, callback, errback, timeout, interval) {
             }
     })();
 }
+
+function readSingleFile(evt) {
+    //Retrieve the first (and only!) File from the FileList object
+    var f = evt.target.files[0]; 
+
+    if (f) {
+        var r = new FileReader();
+        r.onload = function(e) { 
+            var contents = e.target.result.replace(/^(?=\n)$|^\s*|\s*$|\n\n+/gm,"");
+            document.getElementById("Emails-hidden").value = contents;
+            var tmp = [];
+            for (var line of document.getElementById("Emails-hidden").value.lines()) {
+                tmp.push(obfuscate(line));
+            }
+            document.getElementById('Emails-text').innerHTML = tmp.join('<br>');
+            count_lines("Emails-hidden");
+        }
+        r.readAsText(f);
+        reveal_input();
+    } else { 
+        alert("Failed to load file");
+    }
+}
+document.getElementById('files').addEventListener('change', readSingleFile, false);

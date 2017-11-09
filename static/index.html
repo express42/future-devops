@@ -52,49 +52,16 @@ DigitalOcean
 Azure</textarea>
       </div>
       <div id="col2">
-        <h2 id="Emails-header">Emails</h2>
-        <textarea id="Emails" name="emails" form="future-devops" onfocus="reveal_input();" onkeyup="count_lines('Emails');hide_emails();">fwitness@me.com
-reziac@yahoo.com
-spadkins@hotmail.com
-gilmoure@yahoo.com
-cgarcia@yahoo.com
-luebke@optonline.net
-wojciech@yahoo.ca
-dsugal@hotmail.com
-redingtn@verizon.net
-metzzo@hotmail.com
-fglock@att.net
-burniske@me.com
-ianbuck@icloud.com
-amichalo@optonline.net
-harryh@icloud.com
-koudas@sbcglobal.net
-rsteiner@mac.com
-helger@gmail.com
-conteb@outlook.com
-storerm@me.com
-crimsane@yahoo.ca
-simone@live.com
-cliffordj@optonline.net
-zilla@aol.com
-kingma@comcast.net
-plover@aol.com
-jbailie@outlook.com
-qrczak@mac.com
-gward@verizon.net
-hauma@verizon.net
-hillct@verizon.net
-cliffordj@optonline.net
-slanglois@comcast.net
-arebenti@live.com
-stellaau@msn.com
-bhtower@att.net
-roamer@comcast.net
-tubesteak@hotmail.com
-muzzy@icloud.com
-karasik@yahoo.com
-dwsauder@hotmail.com
-crusader@comcast.net</textarea>
+        <h2 id="Emails-hidden-header">Emails</h2>
+        <div
+          id="Emails"
+          class="textArea"
+          onclick="document.getElementById('files').click();"
+        >
+        <span type="submit" id="hoverText" align="right" id="get_file">Upload file</span>
+        <div id="Emails-text"></div>
+        </div>
+        <input type="file" id="files" style="display:none;">
         <textarea id="Emails-hidden" style="display:none;"></textarea>
       </div>
       <form id="future-devops">
