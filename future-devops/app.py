@@ -15,7 +15,7 @@ class LevensteinResource(object):
     def __init__(self):
         """Defines default variables.
         """
-        self.max_winners = 2
+        self.max_winners = 15
         self.reset()
 
     def reset(self):
